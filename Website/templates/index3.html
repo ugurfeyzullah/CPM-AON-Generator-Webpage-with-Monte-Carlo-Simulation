@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<title>CPM (AON) Generator</title>
+	<style>
+		body {
+			background-color: #222222;
+			color: #FFFFFF;
+		}
+
+		h1 {
+			text-align: left;
+			 font-size: 25px;
+		}
+		h2 {
+			text-align: center;
+			 font-size: 25px;
+		}
+		.title {
+			font-size: 36px;
+			font-weight: bold;
+			text-align: center;
+		}
+		.created-by {
+			font-style: italic;
+			font-size: 14px;
+			text-align: right;
+		}
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            display: flex; /* use flexbox to display the tabs side by side */
+        }
+
+        nav li {
+            float: none;
+            display: inline-block; /* use inline-block to display the tabs side by side */
+        }
+
+        nav li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+            nav li a:hover {
+            background-color: #111;
+        }
+            nav li.active {
+            background-color: black;
+        }
+
+            .float-right {
+            float: right;
+        }
+
+	</style>	
+</head>
+<body>
+</head>
+	<div class="title">CPM (AON) GENERATOR</div>
+    <div class="created-by">Created by FU</div>	
+    
+    <nav>
+        <ul>
+            <li class="active"><a href="/">Activity Network Diagram</a></li>
+            <li><a href="/newtab">Criticality Index &amp; S-curve</a></li>
+        </ul>
+    </nav>
+    <style>
+        .exceltab {
+            float: right;
+        }
+    </style>
+
+    <h1></h1>
+    <form method="POST" action="/" id="activity-form">
+        <table id="activity-table">
+            <tr>
+                <th>Activity Name</th>
+                <th>Duration</th>
+                <th>Successors (comma separated)</th>
+                <th></th>
+            </tr>
+                <!-- START GENERATED HTML CODE -->
+            <tr>
+                <td><input type="text" name="activity" value="A"></td>
+                <td><input type="number" name="duration" min="0" value="3"></td>
+                <td><input type="text" name="successor" value="C,B"></td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="B"></td>
+                <td><input type="number" name="duration" min="0" value="4"></td>
+                <td><input type="text" name="successor" value="D"></td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="C"></td>
+                <td><input type="number" name="duration" min="0" value="2"></td>
+                <td><input type="text" name="successor" value="E,F"></td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="D"></td>
+                <td><input type="number" name="duration" min="0" value="5"></td>
+                <td><input type="text" name="successor" value="G"></td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="E"></td>
+                <td><input type="number" name="duration" min="0" value="1"></td>
+                <td><input type="text" name="successor" value="G"></td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="F"></td>
+                <td><input type="number" name="duration" min="0" value="2"></td>
+                <td><input type="text" name="successor" value="H"></td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="G"></td>
+                <td><input type="number" name="duration" min="0" value="5"></td>
+                <td><input type="text" name="successor" value="H"></td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="H"></td>
+                <td><input type="number" name="duration" min="0" value="6"></td>
+                <td><input type="text" name="successor" value=""></td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+            </tr>
+        <!-- END GENERATED HTML CODE -->
+        </table>
+        <button type="button" id="add-row">Add Row</button>
+        <br><br>
+        <input type="submit" value="Create Network Diagram">
+		<img class="image" src="{{ url_for('static', filename='test.png') }}" alt="Graph" style="position: absolute; top: 130px; left: 670px;">
+        <img class="image" src="{{ url_for('static', filename='Excel.png') }}" alt="Graph" style="position: absolute; top: 480px; left: 670px;">
+    </form>
+    <script>
+        // set default values
+        var inputs = document.getElementsByTagName("input");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].defaultValue = inputs[i].value;
+        }
+
+        function updateInput(input) {
+            // update the default value of the input element
+            input.defaultValue = input.value;
+        }
+    
+        $(document).ready(function() {
+            // add row
+            $('#add-row').click(function() {
+                var $row = $('<tr>' +
+                                '<td><input type="text" name="activity"></td>' +
+                                '<td><input type="number" name="duration" min="0"></td>' +
+                                '<td><input type="text" name="successor"></td>' +
+                                '<td><button type="button" class="remove-row">Remove</button></td>' +
+                            '</tr>');
+                $('#activity-table').append($row); // Append at end of table
+            });
+    
+    
+            // Remove row
+            $(document).on('click', '.remove-row', function() {
+                $(this).closest('tr').remove();
+            });
+    
+        });
+    </script>
+    
+    <script>
+        $('nav li').click(function() {
+            $('nav li').removeClass('active');
+            $(this).addClass('active');
+        });
+    </script>   
+
+
+</body>
+</html>
+
+<!doctype html>
+<html>
+  <head>
+    <title>Excel file upload example</title>
+  </head>
+  <body>
+    <h1>Upload an Excel file</h1>
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+
+</html>

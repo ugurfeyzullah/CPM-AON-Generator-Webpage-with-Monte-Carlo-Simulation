@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<title>CPM (AON) Generator</title>
+	<style>
+		body {
+			background-color: #222222;
+			color: #FFFFFF;
+		}
+
+		h1 {
+			text-align: left;
+			 font-size: 25px;
+		}
+		h2 {
+			text-align: center;
+			 font-size: 25px;
+		}
+		.title {
+			font-size: 36px;
+			font-weight: bold;
+			text-align: center;
+		}
+		.created-by {
+			font-style: italic;
+			font-size: 14px;
+			text-align: right;
+		}
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            display: flex; /* use flexbox to display the tabs side by side */
+        }
+
+        nav li {
+            float: none;
+            display: inline-block; /* use inline-block to display the tabs side by side */
+        }
+
+        nav li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+            nav li a:hover {
+            background-color: #111;
+        }
+            nav li.active {
+            background-color: black;
+        }
+
+	</style>	
+</head>
+<body>
+</head>
+	<div class="title">CPM (AON) GENERATOR</div>
+    <div class="created-by">Created by FU</div>	
+    
+    <nav>
+        <ul>
+            <li><a href="/">Activity Network Diagram</a></li>
+            <li class="active"><a href="/newtab">Criticality Index &amp; S-curve</a></li>
+        </ul>
+    </nav>
+    <h1></h1>
+    <form method="POST" action="/newtab">
+        <table id="activity-table">
+            <tr>
+                <th>Activity Name</th>
+                <th>Most Likely Dur.</th>
+                <th>Successors (comma separated)</th>
+                <th>Best Case Dur.</th>
+                <th>Worst Case Dur.</th>
+                <th>Dist. Type</th>
+                <th></th>
+                <th>Num. of simulations</th>
+                <!-- START GENERATED SIMNUM CODE --><td><input type="number" name="num" min="0" value="100"></td><!-- END GENERATED SIMNUM CODE -->
+                <th>Dist. Type All:</th> 
+                <!-- START GENERATED CHECK CODE -->
+                <td><input type="checkbox" name="agree" value="yes" id="agree-checkbox">
+                    <select id="distribution" name="distribution" disabled><!-- END GENERATED CHECK CODE -->                
+                    
+                        <!-- START GENERATED DROPDOWN CODE -->                           
+            <option value="triangular" selected>Triangular</option>
+            <option value="normal">Normal</option>
+            <option value="uniform">Uniform</option><!-- END GENERATED DROPDOWN CODE -->
+                    </select>
+                </td>
+            </tr>
+                
+            <!-- START GENERATED HTML CODE -->
+            <tr>
+                <td><input type="text" name="activity" value="A"></td>
+                <td><input type="number" name="duration" min="0" value="3"></td>
+                <td><input type="text" name="successor" value="C,B"></td>
+                <td><input type="number" name="stddev" min="0" value="1"></td>
+                <td><input type="number" name="worst" min="0" value="10"></td>
+                <td>                
+                    <select id="distribution_single" name="distribution_single">                         
+            <option value="triangular" selected>triangular</option>
+            <option value="normal">normal</option>
+            <option value="uniform">uniform</option>
+                    </select>
+                </td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+                
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="B"></td>
+                <td><input type="number" name="duration" min="0" value="4"></td>
+                <td><input type="text" name="successor" value="D"></td>
+                <td><input type="number" name="stddev" min="0" value="1"></td>
+                <td><input type="number" name="worst" min="0" value="10"></td>
+                <td>                
+                    <select id="distribution_single" name="distribution_single">                         
+            <option value="triangular" selected>triangular</option>
+            <option value="normal">normal</option>
+            <option value="uniform">uniform</option>
+                    </select>
+                </td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+                
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="C"></td>
+                <td><input type="number" name="duration" min="0" value="8"></td>
+                <td><input type="text" name="successor" value="F,E"></td>
+                <td><input type="number" name="stddev" min="0" value="5"></td>
+                <td><input type="number" name="worst" min="0" value="50"></td>
+                <td>                
+                    <select id="distribution_single" name="distribution_single">                         
+            <option value="triangular" selected>triangular</option>
+            <option value="normal">normal</option>
+            <option value="uniform">uniform</option>
+                    </select>
+                </td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+                
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="D"></td>
+                <td><input type="number" name="duration" min="0" value="5"></td>
+                <td><input type="text" name="successor" value="G"></td>
+                <td><input type="number" name="stddev" min="0" value="1"></td>
+                <td><input type="number" name="worst" min="0" value="10"></td>
+                <td>                
+                    <select id="distribution_single" name="distribution_single">                         
+            <option value="triangular" selected>triangular</option>
+            <option value="normal">normal</option>
+            <option value="uniform">uniform</option>
+                    </select>
+                </td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+                
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="E"></td>
+                <td><input type="number" name="duration" min="0" value="7"></td>
+                <td><input type="text" name="successor" value="G"></td>
+                <td><input type="number" name="stddev" min="0" value="5"></td>
+                <td><input type="number" name="worst" min="0" value="50"></td>
+                <td>                
+                    <select id="distribution_single" name="distribution_single">                         
+            <option value="triangular" selected>triangular</option>
+            <option value="normal">normal</option>
+            <option value="uniform">uniform</option>
+                    </select>
+                </td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+                
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="F"></td>
+                <td><input type="number" name="duration" min="0" value="8"></td>
+                <td><input type="text" name="successor" value="H"></td>
+                <td><input type="number" name="stddev" min="0" value="6"></td>
+                <td><input type="number" name="worst" min="0" value="60"></td>
+                <td>                
+                    <select id="distribution_single" name="distribution_single">                         
+            <option value="triangular" selected>triangular</option>
+            <option value="normal">normal</option>
+            <option value="uniform">uniform</option>
+                    </select>
+                </td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+                
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="G"></td>
+                <td><input type="number" name="duration" min="0" value="4"></td>
+                <td><input type="text" name="successor" value="H"></td>
+                <td><input type="number" name="stddev" min="0" value="1"></td>
+                <td><input type="number" name="worst" min="0" value="10"></td>
+                <td>                
+                    <select id="distribution_single" name="distribution_single">                         
+            <option value="triangular" selected>triangular</option>
+            <option value="normal">normal</option>
+            <option value="uniform">uniform</option>
+                    </select>
+                </td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+                
+            </tr>
+        
+            <tr>
+                <td><input type="text" name="activity" value="H"></td>
+                <td><input type="number" name="duration" min="0" value="6"></td>
+                <td><input type="text" name="successor" value=""></td>
+                <td><input type="number" name="stddev" min="0" value="1"></td>
+                <td><input type="number" name="worst" min="0" value="10"></td>
+                <td>                
+                    <select id="distribution_single" name="distribution_single">                         
+            <option value="triangular" selected>triangular</option>
+            <option value="normal">normal</option>
+            <option value="uniform">uniform</option>
+                    </select>
+                </td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+                
+            </tr>
+        <!-- END GENERATED HTML CODE -->
+        </table>
+        <button type="button" id="add-row">Add Row</button>   <button class="exceltab"><a href="/uploadsc">Import from Excel</a></button>
+        <br><br>
+        <input type="submit" value="Update inputs"> 
+        <br><br>
+
+
+
+        <!-- START GENERATED PATH CODE -->
+        <form>
+            <input type="checkbox" id="checkbox1" onclick="toggleImage('simulation_0', 'checkbox1')">
+            <label style="color: white;">%750.0 - A - C - E - G - H</label>
+        </form>  
+
+        <div style="position: relative;">
+            <img class="image simulation_0" src="{{ url_for('static', filename='simulation_0.png') }}" alt="Graph" style="display:none;">
+        </div>
+        
+        <form>
+            <input type="checkbox" id="checkbox2" onclick="toggleImage('simulation_1', 'checkbox2')">
+            <label style="color: white;">%250.0 - A - C - F - H</label>
+        </form>  
+
+        <div style="position: relative;">
+            <img class="image simulation_1" src="{{ url_for('static', filename='simulation_1.png') }}" alt="Graph" style="display:none;">
+        </div>
+        <!-- END GENERATED PATH CODE -->
+
+
+
+
+        
+        <br><br>
+        <div style="position: relative;">
+            <img class="image c1" src="{{ url_for('static', filename='c1.png') }}" alt="Graph" >
+            <img class="image c2" src="{{ url_for('static', filename='c2.png') }}" alt="Graph" style="position: absolute;top: 0px; left: 700px;">
+        </div>
+
+        <script>
+        function toggleImage(className, checkboxId) {
+            var checkbox = document.getElementById(checkboxId);
+            var images = document.getElementsByClassName(className);
+            for (var i = 0; i < images.length; i++) {
+                if (checkbox.checked) {
+                    images[i].style.display = "block";
+                } else {
+                    images[i].style.display = "none";
+                }
+            }
+        }
+        </script>
+   
+
+
+
+    </form>
+    <script>
+        $(document).ready(function() {
+            // Add row
+            $('#add-row').click(function() {
+                var $row = $('<tr>' +
+                                '<td><input type="text" name="activity"></td>' +
+                                '<td><input type="number" name="duration" min="0"></td>' +
+                                '<td><input type="text" name="successor"></td>' +
+                                '<td><input type="number" name="stddev"></td>' +
+                                '<td><input type="number" name="worst"></td>' +
+                                '<td>' +
+                                '<select id="distribution_single" name="distribution_single">' +
+                                    '<option value="triangular" selected>triangular</option>' +
+                                    '<option value="normal">normal</option>' +
+                                    '<option value="uniform">uniform</option>' +
+                                '</select>' +
+                            '</td>' +
+                                '<td><button type="button" class="remove-row">Remove</button></td>' +
+                            '</tr>');
+                $('#activity-table').append($row); // Append at end of table
+            });
+        
+            // Remove row
+            $(document).on('click', '.remove-row', function() {
+                $(this).closest('tr').remove();
+            });
+
+            // Handle checkbox click event
+            $('input[name="agree"]').on('click', function() {
+                var select = $('select[name="distribution"]');
+                if ($(this).is(':checked')) {
+                    select.prop('disabled', false);
+                } else {
+                    select.prop('disabled', true);
+                }
+            });
+
+                // Handle checkbox click event for second table
+                $('input[name="agree"]').on('click', function() {
+                var select = $('select[name="distribution_single"]');
+                if ($(this).is(':checked')) {
+                    select.prop('disabled', true);
+                } else {
+                    select.prop('disabled', false);
+                }
+            });
+
+
+
+
+        });
+    </script>

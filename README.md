@@ -41,4 +41,4 @@ Contributions to this project are welcome! Please follow these steps to contribu
 
 ## Contact
 
-- Feyzullah Yavan - [LinkedIn](www.linkedin.com/in/ugurfey) - uguryavan@hotmail.com
+- Feyzullah Yavan - [LinkedIn](www.linkedin.com/in/ugurfey) - feyzullah.yavan@kit.edu

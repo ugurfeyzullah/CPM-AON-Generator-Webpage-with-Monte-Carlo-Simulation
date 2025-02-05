@@ -1,7 +1,8 @@
 # CPM (AON) Generator – Project Management Assistant
 
-![image](https://github.com/user-attachments/assets/929e6ac0-8188-4a98-8a7c-cc2993d78737)
-![image](https://github.com/user-attachments/assets/b29d9f39-0312-4555-8dc2-fb81b5ce9a9a)
+![image](https://github.com/user-attachments/assets/e599349e-eddc-4a90-a864-8345a5cc79e6)
+![image](https://github.com/user-attachments/assets/4ef5f0c4-ca21-466b-94b3-daff757b0c4c)
+
 
 
 ## Table of Contents

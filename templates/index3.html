@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<title>CPM (AON) Generator</title>
+	<style>
+		body {
+			background-color: #222222;
+			color: #FFFFFF;
+		}
+
+		h1 {
+			text-align: center;
+			 font-size: 25px;
+		}
+		h2 {
+			text-align: center;
+			 font-size: 25px;
+		}
+		.title {
+			font-size: 36px;
+			font-weight: bold;
+			text-align: center;
+		}
+		.created-by {
+			font-style: italic;
+			font-size: 14px;
+			text-align: right;
+		}
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            display: flex; /* use flexbox to display the tabs side by side */
+        }
+
+        nav li {
+            float: none;
+            display: inline-block; /* use inline-block to display the tabs side by side */
+        }
+
+        nav li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+            nav li a:hover {
+            background-color: #111;
+        }
+            nav li.active {
+            background-color: black;
+        }
+
+	</style>	
+</head>
+<body>
+</head>
+	<div class="title">CPM (AON) GENERATOR</div>
+    <div class="created-by">Created by FU</div>	
+    
+    <nav>
+        <ul>
+            <li><a href="/">Activity Network Diagram</a></li>
+            <li><a href="/newtab">Monte Carlo Simulation</a></li>
+            <li class="active"><a href="/upload">Excel Importer</a></li>
+        </ul>
+    </nav>
+    
+<html>
+  <head>
+    <title>Excel file upload example</title>
+    <style>
+      body {
+        text-align: center;
+      }
+
+      table {
+        margin: 20px auto; /* Center the table on the page */
+      }
+
+      h1 {
+        margin-bottom: 20px; /* Adjust the margin-bottom value to position the header */
+      }
+
+      form {
+        margin-top: 20px;
+      }
+
+      input[type="file"] {
+        margin-right: 10px;
+      }
+
+      input[type="submit"] {
+        padding: 10px;
+      }
+
+      img.image {
+        display: block;
+        margin: 20px auto; /* Center the image on the page */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>IMPORT DATA FROM EXCEL FILE</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Submit">
+      {% if message %}
+      <p>{{ message }}</p>
+      {% endif %}
+    </form>
+    <table>
+      <tr>
+        <td>
+          <img class="image" src="{{ url_for('static', filename='Excel.png') }}" alt="Graph">
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

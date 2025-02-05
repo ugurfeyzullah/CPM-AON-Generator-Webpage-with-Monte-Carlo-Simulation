@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+</head>
+
+<script>var loggedInUsername = "{{ username }}";</script>
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>    
+
+<body>
+
+    
+    <header>
+        <titbut>  
+              
+                <div class="title">CPM (AON) GENERATOR</div>
+
+
+
+                <aside>
+                    <button class="theme-switcher" onclick="toggleTheme()" style="background:none; border:none; padding:0;">
+                    <img src="{{ url_for('static', filename='switch.png') }}" alt="Theme Switcher" style="background:none;">
+                    </button>
+    
+                    <div class="button-container" id="authContainer">
+
+                    <!-- Login and Signup buttons -->
+                    <button class="login-button">Login</button>
+                    <button class="signup-button">Sign Up</button>
+                    <!-- The rest of your modal content here -->
+
+                    </div>
+                </aside>
+              </div>
+            </div>
+    
+          </titbut>  
+    
+          <nav>
+              <ul>
+                <li><a href="/">Activity Network Diagram</a></li>
+                <li class="active"><a href="/newtab">Monte Carlo Simulation</a></li>
+                <li><a href="/gpt">Chat Bot</a></li>
+              </ul>
+          </nav>
+    </header>
+
+
+    <section>
+        <div class="container">
+            <form method="POST" action="/newtab">
+                <table id="activity-table">
+                    <tr>
+                        <th>Activity Name</th>
+                        <th>Most Likely Dur.</th>
+                        <th>Successors (comma separated)</th>
+                        <th>Best Case Dur.</th>
+                        <th>Worst Case Dur.</th>
+                        <th>Dist. Type</th>
+                        <th></th>
+                    </tr>
+
+                    {% for row in rows1 %}
+                    <tr>
+                        <td><input type="text" name="activity" value="{{ row.activity }}"></td>
+                        <td><input type="number" name="duration" min="0" value="{{ row.duration }}"></td>
+                        <td><input type="text" name="successor" value="{{ row.successor }}"></td>
+                        <td><input type="number" name="stddev" min="0" value="{{ row.stddev }}"></td>
+                        <td><input type="number" name="worst" min="0" value="{{ row.worst }}"></td>
+                        <td>
+
+                            <select id="distribution_single" name="distribution_single">
+                        <option value="{{ row.optionvalue1}}" selected>{{ row.optionvalue1}}</option>
+                        <option value="{{ row.optionvalue2 }}">{{ row.optionvalue2 }}</option>
+                        <option value="{{ row.optionvalue3 }}">{{ row.optionvalue3 }}</option>
+                            </select>
+                        </td>
+                        <td><button type="button" class="remove-row buttonfancy">Remove</button></td>
+                    </tr>
+                    {% endfor %}
+
+                </table>
+
+
+                <table style="margin-left: 580px; margin-right: 0;">
+                    <th> Num. of simulations</th>
+                    <td><input type="number" name="num" min="0" value="{{ num }}" style="width: 60px; margin-right: 15pt;"></td>
+                    <th>Dist. Type All:</th>
+
+                    <td><input type="checkbox" name="agree" value="yes" id="agree-checkbox">
+                        <select id="distribution" name="distribution" disabled>
+
+                            {{ dropdowntext|safe }}
+                        </select>
+                    </td>
+                </table>
+    
+
+                <button type="button" id="add-row" class="buttonfancy">Add Row</button>   
+                <a href="/uploadsc" class="exceltab buttonfancy">Import from Excel</a>
+
+                <input type="submit" class="buttonfancy" value="Create Network Diagram"> 
+                
+                
+                {% if message %}
+                <p>{{ message }}</p>
+                {% endif %}
+
+                <br></br>
+                {% for row in formatted_strings %}
+
+                    <form>
+                        <input type="checkbox" id="{{ row.checkboxnum }}" onclick="toggleImage('{{ row.simnum }}', '{{ row.checkboxnum }}')">
+                        <label>{{ row.simn }}</label>
+                    </form>
+
+                    <div style="position: relative;">
+                        <img class="image {{ row.simnum }}" src="{{ url_for('static', filename=row.simnum + '.png') }}" alt="Graph" style="display:none;">
+                    </div>
+
+                {% endfor %}
+
+
+            </form>        
+        </div> 
+    </section>
+
+
+    <section>
+        <div style="position: relative;">
+            <img class="image c1" src="{{ url_for('static', filename='c1.png') }}" alt="Graph" style="margin-right: 10px; vertical-align: top;">
+            <img class="image c2" src="{{ url_for('static', filename='c2.png') }}" alt="Graph" style="margin-left: 10px; vertical-align: top;">
+        </div>
+    </section>
+
+
+    <section>
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="loginForm">
+                <!-- Form Fields for Login -->
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit">Login</button>
+            </form>
+            </div>
+        </div>
+        
+        <!-- Signup Modal -->
+        <div id="signupModal" class="modal">
+            <!-- Modal content -->S
+            <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="signupForm">
+                <!-- Form Fields for Signup -->
+                <input type="text" name="newUsername" placeholder="Username">
+                <input type="email" name="email" placeholder="Email">
+                <input type="password" name="newPassword" placeholder="Password">
+                <button type="submit">Sign Up</button>
+            </form>
+            </div>
+        </div>
+        
+
+        <!-- Popup Modal -->
+        <div id="popupModal" class="modal-background">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="feedbackForm">
+                    <label for="idea">Your comments are important for us. Please write your suggestions and comments about website:</label>
+                    <textarea id="idea" name="idea" required></textarea>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </section>
+
+   <!-- Chatbot window -->
+   <div id="chatbotWindow">
+    <div id="chat-container3">
+        <div id="chatbox3" ></div>
+        <div id="input-box3">
+            <input type="text" id="input3" placeholder="Type a message...">
+            <button id="send3">Send</button>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function(){
+      // Function to send a message
+      function sendMessage() {
+          // Check if the user is logged in
+          if (loggedInUsername) {
+              var message = $('#input3').val();
+              $('#input3').val('');
+              $('#chatbox3').append('<p><strong>You:</strong> ' + message + '</p>');
+
+              $.ajax({
+                  url: '/chat',
+                  method: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ message: message }),
+                  success: function(response){
+                      $('#chatbox3').append('<p><strong>AI Engineer:</strong> ' + response.reply + '</p>');
+                      if(response.showButton) {
+                          // Append the button only if showButton is true
+                          $('#chatbox3').append('<a href="/GPTinput2" class="exceltab buttonfancy">Apply the changes</a>');
+                      }
+                  }
+              });
+          } else {
+              // User is not logged in, show a warning message
+              alert("Please log in to access this feature.");
+          }
+      }
+
+      // Click event for the send button
+      $('#send3').on('click', function(){
+          sendMessage();
+      });
+
+      // Keypress event for the input field to listen for the Enter key
+      $('#input3').on('keypress', function(e){
+          if(e.which === 13) {  // 13 is the keycode for Enter
+              sendMessage();
+          }
+      });
+  });
+</script>
+
+
+
+
+
+<div class="chatbotButtonContainer" onclick="toggleChatbot()">
+<svg viewBox="45 60 400 320" xmlns="http://www.w3.org/2000/svg" >
+    <path fill="#fff" d="M 90 210 C 90 180 90 150 90 150 C 150 150 180 150 180 150 C 180 150 300 150 300 150 C 300 150 330 150 390 150 C 390 150 390 180 390 210 C 390 240 390 270 390 270 C 330 270 300 270 300 270 C 300 270 180 270 180 270 C 180 270 150 270 90 270 C 90 270 90 240 90 210" mask="url(#knockout-text)" >
+    </path>
+    <mask id="knockout-text" >
+    <rect width="100%" height="100%" fill="#fff" x="0" y="0" />
+    <text x="150" y="227" fill="#000">ChatBot</text >
+    </mask>
+</svg>
+</div>
+
+
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+            This work was done by Research Assistant Feyzullah Yavan at the Karlsruhe Institute of Technology, Department of DEC, under the supervision of Prof. Dr. Reza Maalek.<br>
+            The research funding came from DEC.</div>
+            <div class="footer-contact">
+            Contact Information:<br>
+            Email: reza.maalek@kit.edu<br>
+            Phone: +49 721 608-44350<br>
+            Address: Institut für Technologie und Management im Baubetrieb des<br>
+            Karlsruher Instituts für Technologie (KIT)<br>
+            Geb. 50.31 Am Fasanengarten<br>
+            D-76131 Karlsruhe/Germany<br>
+            </div>
+        </div>
+        <div class="created-by">Created by UğurFey</div>
+    </footer>
+  
+
+</body>
+
+
+<script>
+    function toggleImage(className, checkboxId) {
+        var checkbox = document.getElementById(checkboxId);
+        var images = document.getElementsByClassName(className);
+        for (var i = 0; i < images.length; i++) {
+            if (checkbox.checked) {
+                images[i].style.display = "block";
+            } else {
+                images[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+
+
+
+
+<script>
+    $(document).ready(function() {
+        // Add row
+        $('#add-row').click(function() {
+            var $row = $('<tr>' +
+                            '<td><input type="text" name="activity"></td>' +
+                            '<td><input type="number" name="duration" min="0"></td>' +
+                            '<td><input type="text" name="successor"></td>' +
+                            '<td><input type="number" name="stddev"></td>' +
+                            '<td><input type="number" name="worst"></td>' +
+                            '<td>' +
+                            '<select id="distribution_single" name="distribution_single">' +
+                                '<option value="triangular" selected>triangular</option>' +
+                                '<option value="normal">normal</option>' +
+                                '<option value="uniform">uniform</option>' +
+                            '</select>' +
+                        '</td>' +
+                            '<td><button type="button" class="remove-row">Remove</button></td>' +
+                        '</tr>');
+            $('#activity-table').append($row); // Append at end of table
+        });
+
+        // Remove row
+        $(document).on('click', '.remove-row', function() {
+            $(this).closest('tr').remove();
+        });
+
+        // Handle checkbox click event
+        $('input[name="agree"]').on('click', function() {
+            var select = $('select[name="distribution"]');
+            if ($(this).is(':checked')) {
+                select.prop('disabled', false);
+            } else {
+                select.prop('disabled', true);
+            }
+        });
+
+            // Handle checkbox click event for second table
+            $('input[name="agree"]').on('click', function() {
+            var select = $('select[name="distribution_single"]');
+            if ($(this).is(':checked')) {
+                select.prop('disabled', true);
+            } else {
+                select.prop('disabled', false);
+            }
+        });
+
+    });
+</script>
+
+
+
+<script>
+
+// Get the modal
+var modal = document.getElementById("popupModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// Open the modal after 5 seconds
+setTimeout(function() {
+    modal.style.display = "block";
+}, 900000);
+
+// Close the modal when the user clicks on <span> (x)
+span.onclick = function() {
+    modal.style.display = "none";
+};
+
+// Close the modal when the user clicks anywhere outside of the modal
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+
+// Handle form submission
+document.getElementById('feedbackForm').onsubmit = function(event) {
+    event.preventDefault();
+    var idea = document.getElementById('idea').value;
+    fetch('/submit_idea', {
+        method: 'POST',
+        body: JSON.stringify({idea: idea}),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+        .then(data => {
+            // Handle response here
+            alert(data.message);
+            modal.style.display = 'none';
+        });
+};
+</script>
+
+
+
+
+</html>

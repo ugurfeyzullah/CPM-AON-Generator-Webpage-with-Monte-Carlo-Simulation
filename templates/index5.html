@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+
+
+<script>var loggedInUsername = "{{ username }}";</script>
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>   
+
+<body>
+
+    <header>
+        <titbut>  
+              
+                <div class="title">CPM (AON) GENERATOR</div>
+                <aside>
+                    <button class="theme-switcher" onclick="toggleTheme()" style="background:none; border:none; padding:0;">
+                      <img src="{{ url_for('static', filename='switch.png') }}" alt="Theme Switcher" style="background:none;">
+                    </button>
+      
+                    <div class="button-container" id="authContainer">
+    
+                      <!-- Login and Signup buttons -->
+                      <button class="login-button">Login</button>
+                      <button class="signup-button">Sign Up</button>
+                      <!-- The rest of your modal content here -->
+    
+                    </div>
+                </aside>
+              </div>
+            </div>
+    
+          </titbut>  
+    
+          <nav>
+              <ul>
+                <li><a href="/">Activity Network Diagram</a></li>
+                <li><a href="/newtab">Monte Carlo Simulation</a></li>
+                <li class="active"><a href="/gpt">Chat Bot</a></li>
+              </ul>
+          </nav>
+    </header>
+
+    <section>
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="loginForm">
+                <!-- Form Fields for Login -->
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <button type="submit">Login</button>
+            </form>
+            </div>
+        </div>
+        
+        <!-- Signup Modal -->
+        <div id="signupModal" class="modal">
+            <!-- Modal content -->S
+            <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="signupForm">
+                <!-- Form Fields for Signup -->
+                <input type="text" name="newUsername" placeholder="Username">
+                <input type="email" name="email" placeholder="Email">
+                <input type="password" name="newPassword" placeholder="Password">
+                <button type="submit">Sign Up</button>
+            </form>
+            </div>
+        </div>
+        
+
+        <!-- Popup Modal -->
+        <div id="popupModal" class="modal-background">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="feedbackForm">
+                    <label for="idea">Your comments are important for us. Please write your suggestions and comments about website:</label>
+                    <textarea id="idea" name="idea" required></textarea>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </section>
+
+    
+    <div class="title2">Your Project Management Specialist Assistant</div>
+
+
+
+    <div id="chat-container">
+        <div id="chatbox"></div>
+        <div id="input-box">
+            <input type="text" id="input" placeholder="Type a message...">
+            <button id="send">Send</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Function to send a message
+            function sendMessage() {
+                var message = $('#input').val();
+                $('#input').val('');
+                $('#chatbox').append('<p><strong>You:</strong> ' + message + '</p>');
+
+                $.ajax({
+                    url: '/chat',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ message: message }),
+                    success: function(response){
+                        $('#chatbox').append('<p><strong>AI Engineer:</strong> ' + response.reply + '</p>');
+                    }
+                });
+            }
+
+            // Click event for the send button
+            $('#send').on('click', function(){
+                sendMessage();
+            });
+
+            // Keypress event for the input field to listen for the Enter key
+            $('#input').on('keypress', function(e){
+                if(e.which === 13) {  // 13 is the keycode for Enter
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+            This work was done by Research Assistant Feyzullah Yavan at the Karlsruhe Institute of Technology, Department of DEC, under the supervision of Prof. Dr. Reza Maalek.<br>
+            The research funding came from DEC.</div>
+            <div class="footer-contact">
+            Contact Information:<br>
+            Email: reza.maalek@kit.edu<br>
+            Phone: +49 721 608-44350<br>
+            Address: Institut für Technologie und Management im Baubetrieb des<br>
+            Karlsruher Instituts für Technologie (KIT)<br>
+            Geb. 50.31 Am Fasanengarten<br>
+            D-76131 Karlsruhe/Germany<br>
+            </div>
+        </div>
+        <div class="created-by">Created by UğurFey</div>
+    </footer>
+
+</body>
+</html>
+
+
+
+

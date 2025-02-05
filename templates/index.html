@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+
+<script>var loggedInUsername = "{{ username }}";</script>
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>   
+
+<body>
+  <header>
+    <titbut>  
+          
+            <div class="title">CPM (AON) GENERATOR</div>
+
+
+              <aside>
+                <button class="theme-switcher" onclick="toggleTheme()" style="background:none; border:none; padding:0;">
+                  <img src="{{ url_for('static', filename='switch.png') }}" alt="Theme Switcher" style="background:none;">
+                </button>
+  
+                <div class="button-container" id="authContainer">
+
+                  <!-- Login and Signup buttons -->
+                  <button class="login-button">Login</button>
+                  <button class="signup-button">Sign Up</button>
+                  <!-- The rest of your modal content here -->
+
+                </div>
+              </aside>
+          </div>
+        </div>
+
+      </titbut>  
+
+      <nav>
+          <ul>
+              <li class="active"><a href="/">Activity Network Diagram</a></li>
+              <li><a href="/newtab">Monte Carlo Simulation</a></li>
+              <li><a href="/gpt">Chat Bot</a></li>
+          </ul>
+      </nav>
+  </header>
+
+  <section>
+      <left>  
+        <div class="container">
+          <form method="POST" action="/" id="activity-form">
+              <table id="activity-table">
+                  <tr>
+                      <th>Activity Name</th>
+                      <th>Duration</th>
+                      <th>Successors (comma separated)</th>
+                      <th></th>
+                  </tr>
+                  
+              
+                {% for row in rows %}
+                <tr>
+                    <td><input type="text" name="activity" value="{{ row.activity }}"></td>
+                    <td><input type="number" name="duration" min="0" value="{{ row.duration }}"></td>
+                    <td><input type="text" name="successor" value="{{ row.successor }}"></td>
+                    <td><button type="button" class="remove-row buttonfancy">Remove</button></td>
+                </tr>
+                {% endfor %}
+              </table>   
+
+
+                
+                <button type="button" id="add-row"  class="buttonfancy">Add Row</button>     
+                <a href="/upload" class="exceltab buttonfancy">Import from Excel</a>
+
+                <input type="submit" class="buttonfancy" value="Create Network Diagram">  
+                
+                <!-- Add this to your HTML template where you want to display flashed messages -->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                  <script>
+                    // Display the first flashed message in an alert box
+                    alert("{{ messages[0] }}");
+                  </script>
+                {% endif %}
+                {% endwith %}
+
+
+                {% if message %}
+                <p>{{ message }}</p>
+                {% endif %}
+                </div>
+              
+          </form>        
+        </div> 
+      </left>  
+      
+
+      <aside>
+        <div class="container">
+          <div id="chat-container" style="margin:5px auto; margin-bottom: 30px; width: 600px;">
+            <div id="chatbox" style="height: 140px;"></div>
+            <div id="input-box">
+                <input type="text" id="input" placeholder="Type a message...">
+                <button id="send">Send</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+    </div>    
+  </section>
+
+  <section>
+    <div style="position: relative;">
+      <img class="image" src="{{ url_for('static', filename='gantt.png') }}" alt="Graph" style="margin-right: 10px; vertical-align: top;">
+      <img class="image" src="{{ url_for('static', filename='test.png') }}" alt="Graph" style="margin-left: 10px; vertical-align: top;">
+    </div>
+  </section>
+
+  <section>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content ">
+        <span class="close">&times;</span>
+        <form id="loginForm">
+          <!-- Form Fields for Login -->
+          <input type="text" name="username" placeholder="Username">
+          <input type="password" name="password" placeholder="Password">
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+      <!-- Modal content -->S
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="signupForm">
+          <!-- Form Fields for Signup -->
+          <input type="text" name="newUsername" placeholder="Username">
+          <input type="email" name="email" placeholder="Email">
+          <input type="password" name="newPassword" placeholder="Password">
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  
+    <!-- Popup Modal -->
+    <div id="popupModal" class="modal-background">
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <form id="feedbackForm">
+              <label for="idea">Your comments are important for us. Please write your suggestions and comments about website:</label>
+              <textarea id="idea" name="idea" required></textarea>
+              <input type="submit" value="Submit">
+          </form>
+      </div>
+    </div>
+  
+  </section>
+
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-info">
+        This work was done by Research Assistant Feyzullah Yavan at the Karlsruhe Institute of Technology, Department of DEC, under the supervision of Prof. Dr. Reza Maalek.<br>
+        The research funding came from DEC.</div>
+      <div class="footer-contact">
+        Contact Information:<br>
+        Email: reza.maalek@kit.edu<br>
+        Phone: +49 721 608-44350<br>
+        Address: Institut für Technologie und Management im Baubetrieb des<br>
+        Karlsruher Instituts für Technologie (KIT)<br>
+        Geb. 50.31 Am Fasanengarten<br>
+        D-76131 Karlsruhe/Germany<br>
+      </div>
+    </div>
+    <div class="created-by">Created by UğurFey</div>
+  </footer>
+  
+
+</body>
+
+<script>
+  // set default values
+  var inputs = document.getElementsByTagName("input");
+  for (var i = 0; i < inputs.length; i++) {
+      inputs[i].defaultValue = inputs[i].value;
+  }
+
+  function updateInput(input) {
+      // update the default value of the input element
+      input.defaultValue = input.value;
+  }
+
+  $(document).ready(function() {
+      // add row
+      $('#add-row').click(function() {
+          var $row = $('<tr>' +
+                          '<td><input type="text" name="activity"></td>' +
+                          '<td><input type="number" name="duration" min="0"></td>' +
+                          '<td><input type="text" name="successor"></td>' +
+                          '<td><button type="button" class="remove-row buttonfancy">Remove</button></td>' +
+                      '</tr>');
+          $('#activity-table').append($row); // Append at end of table
+      });
+
+
+      // Remove row
+      $(document).on('click', '.remove-row', function() {
+          $(this).closest('tr').remove();
+      });
+
+  });
+</script>
+
+<script>
+  // Get the modal
+  var modal = document.getElementById("popupModal");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  // Open the modal after 5 seconds
+  setTimeout(function() {
+      modal.style.display = "block";
+  }, 900000);
+
+  // Close the modal when the user clicks on <span> (x)
+  span.onclick = function() {
+      modal.style.display = "none";
+  };
+
+  // Close the modal when the user clicks anywhere outside of the modal
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  };
+
+  // Handle form submission
+  document.getElementById('feedbackForm').onsubmit = function(event) {
+      event.preventDefault();
+      var idea = document.getElementById('idea').value;
+      fetch('/submit_idea', {
+          method: 'POST',
+          body: JSON.stringify({idea: idea}),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      }).then(response => response.json())
+        .then(data => {
+            // Handle response here
+            alert(data.message);
+            modal.style.display = 'none';
+        });
+  };
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function(){
+      // Function to send a message
+      function sendMessage() {
+          // Check if the user is logged in
+          if (loggedInUsername) {
+              var message = $('#input').val();
+              $('#input').val('');
+              $('#chatbox').append('<p><strong>You:</strong> ' + message + '</p>');
+
+              $.ajax({
+                  url: '/chat',
+                  method: 'POST',
+                  contentType: 'application/json',
+                  data: JSON.stringify({ message: message }),
+                  success: function(response){
+                      $('#chatbox').append('<p><strong>AI Engineer:</strong> ' + response.reply + '</p>');
+                      if(response.showButton) {
+                          // Append the button only if showButton is true
+                          $('#chatbox').append('<a href="/GPTinput" class="exceltab buttonfancy">Apply the changes</a>');
+                      }
+                  }
+              });
+          } else {
+              // User is not logged in, show a warning message
+              alert("Please log in to access this feature.");
+          }
+      }
+
+      // Click event for the send button
+      $('#send').on('click', function(){
+          sendMessage();
+      });
+
+      // Keypress event for the input field to listen for the Enter key
+      $('#input').on('keypress', function(e){
+          if(e.which === 13) {  // 13 is the keycode for Enter
+              sendMessage();
+          }
+      });
+  });
+</script>
+
+
+
+
+</html>
+
+
